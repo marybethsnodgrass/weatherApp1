@@ -22,3 +22,32 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+
+.controller("weatherCtrl", function ($http) {
+        var weather = this;
+
+    navigator.geolocation.getCurrentPosition(function (geopos){
+        var lat = geopos.coords.latitude;
+        var longi = geopos.coords.longitude;
+        var apiKey = '1f9136a9787c2cd3';
+        var urlIP = 'https://api.wunderground.com/api/' + apiKey + "/forecast/conditions/q/autoip.json";
+        var urlCoords = 'https://api.wunderground.com/api/' + apiKey + '/' + lat + ',' + longi;
+
+        $http.get(urlIP).then(function (res){
+            var data = res.data.current_observation;
+            weather.temp = data.temp_f;
+            console.log(weather.temp);
+        });
+    });
+
+    weather.temp = '--';
+});
+
+// .config(function ($stateProvider, $urlRouteProvider){
+//     $stateProvider.state('root', {
+//         url: "/",
+//         template: "<h1>Hello World</h1>"
+//     });
+
+//     $urlRouteProvider.otherwise('/');
+// })
