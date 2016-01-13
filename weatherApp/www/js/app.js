@@ -24,20 +24,28 @@ angular.module('starter', ['ionic'])
 })
 
 .controller("weatherCtrl", function ($http) {
-        var weather = this;
+    var weather = this;
+    var apiKey = '1f9136a9787c2cd3';
+    var url = 'https://api.wunderground.com/api/' + apiKey + "/forecast/conditions/q/";
+
+    $http.get(url + "autoip.json").then(function (res){
+        var data = res.data.current_observation;
+        weather.temp = data.temp_f;
+        weather.location = data.display_location.full;
+        console.log(weather.location);
+    });
 
     navigator.geolocation.getCurrentPosition(function (geopos){
         var lat = geopos.coords.latitude;
         var longi = geopos.coords.longitude;
-        var apiKey = '1f9136a9787c2cd3';
-        var urlIP = 'https://api.wunderground.com/api/' + apiKey + "/forecast/conditions/q/autoip.json";
-        var urlCoords = 'https://api.wunderground.com/api/' + apiKey + '/' + lat + ',' + longi;
 
-        $http.get(urlIP).then(function (res){
+        $http.get(url + lat + ',' + longi + '.json').then(function (res) {
             var data = res.data.current_observation;
             weather.temp = data.temp_f;
-            console.log(weather.temp);
+            weather.location = data.display_location.full;
+            console.log(weather.location);
         });
+
     });
 
     weather.temp = '--';
