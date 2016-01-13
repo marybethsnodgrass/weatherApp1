@@ -42,6 +42,27 @@ angular.module('starter', ['ionic'])
 
     weather.temp = '--';
 
+    function stringifySearch() {
+        var searchToString = weather.searchQuery;
+        JSON.stringify(searchToString);
+        searchToString = searchToString.replace(", ", "");
+        searchToString = searchToString.replace(" ", "_");
+        return searchToString;
+    };
+
+    weather.search = function () {
+        var toState = stringifySearch().substr(-2);
+        console.log("toState: ", toState);
+        var toCity = stringifySearch().slice(0, -2);
+        console.log("toCity: ", toCity);
+        $http
+            .get(url + toState + "/" + toCity + ".json")
+            .then(parseWUData)
+            .then(function () {
+                console.log('url + toState + "/" + toCity + ".json" :, ', url + toState + "/" + toCity + ".json");
+            })
+    }
+
     function parseWUData(res) {
         var data = res.data.current_observation;
             weather.temp = data.temp_f;
