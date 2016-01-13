@@ -28,36 +28,24 @@ angular.module('starter', ['ionic'])
     var apiKey = '1f9136a9787c2cd3';
     var url = 'https://api.wunderground.com/api/' + apiKey + "/forecast/conditions/q/";
 
-    $http.get(url + "autoip.json").then(function (res){
-        var data = res.data.current_observation;
-        weather.temp = data.temp_f;
-        weather.location = data.display_location.full;
-        weather.image = data.icon_url;
-        console.log(weather.location);
-    });
+
+    $http.get(url + 'autoip.json').then(parseWUData);
 
     navigator.geolocation.getCurrentPosition(function (geopos){
         var lat = geopos.coords.latitude;
         var longi = geopos.coords.longitude;
 
-        $http.get(url + lat + ',' + longi + '.json').then(function (res) {
-            var data = res.data.current_observation;
-            weather.temp = data.temp_f;
-            weather.location = data.display_location.full;
-            weather.image = data.icon_url;
-            console.log(weather.location);
-        });
-
+        $http
+            .get(url + lat + ',' + longi + '.json')
+            .then(parseWUData);
     });
 
     weather.temp = '--';
+
+    function parseWUData(res) {
+        var data = res.data.current_observation;
+            weather.temp = data.temp_f;
+            weather.location = data.display_location.full;
+            weather.image = data.icon_url;
+    };
 });
-
-// .config(function ($stateProvider, $urlRouteProvider){
-//     $stateProvider.state('root', {
-//         url: "/",
-//         template: "<h1>Hello World</h1>"
-//     });
-
-//     $urlRouteProvider.otherwise('/');
-// })
