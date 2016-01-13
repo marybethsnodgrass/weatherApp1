@@ -32,6 +32,7 @@ angular.module('starter', ['ionic'])
         var data = res.data.current_observation;
         weather.temp = data.temp_f;
         weather.location = data.display_location.full;
+        weather.image = data.icon_url;
         console.log(weather.location);
     });
 
@@ -43,6 +44,7 @@ angular.module('starter', ['ionic'])
             var data = res.data.current_observation;
             weather.temp = data.temp_f;
             weather.location = data.display_location.full;
+            weather.image = data.icon_url;
             console.log(weather.location);
         });
 
