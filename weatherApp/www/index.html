@@ -36,8 +36,8 @@
                 <h1>{{weather.location}}</h1>
                 <h1>{{weather.temp}}</h1>
                 <img ng-src="{{weather.image}}">
-                <div class="row responsive-sm" ng-repeat"day in weather.fiveDayforecast">
-                    <div class="col">day{{day.date.day}}</div>
+                <div class="row responsive-sm" ng-repeat"day in weather.fiveDayForecast">
+                    <div class="col">{{day.date.day}}</div>
                 </div>
             </ion-content>
         </ion-pane>

@@ -50,6 +50,7 @@ angular.module('starter', ['ionic'])
     };
 
     weather.search = function () {
+        saveToLocalStorage();
         var toState = stringifySearch().substr(-2);
         console.log("toState: ", toState);
         var toCity = stringifySearch().slice(0, -2);
@@ -67,8 +68,27 @@ angular.module('starter', ['ionic'])
             weather.temp = data.temp_f;
             weather.location = data.display_location.full;
             weather.image = data.icon_url;
-        var forecastData = res.data.forecast.simpleforecast.forecastday;
-            weather.fiveDayforecast = forecastData;
-            console.log("forecastData: ", forecastData);
+            weather.fiveDayForecast = res.data.forecast.simpleforecast.forecastday;
+            console.log("weather.fiveDayforecast: ", weather.fiveDayForecast);
+    };
+
+    function saveToLocalStorage() {
+        var searchHist = JSON.parse(localStorage.getItem('searchHistory')) || {};
+        var location = weather.searchQuery;
+        searchHist[location] = weather.temp;
+        console.log("search history is: ", searchHist);
+        localStorage.setItem("searchHistory", JSON.stringify(searchHist));
+        weather.searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
     };
 });
+
+
+
+
+
+
+
+
+
+
+
