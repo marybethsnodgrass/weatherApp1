@@ -50,17 +50,20 @@ angular.module('starter', ['ionic'])
     };
 
     weather.search = function () {
-        saveToLocalStorage();
-        var toState = stringifySearch().substr(-2);
-        console.log("toState: ", toState);
-        var toCity = stringifySearch().slice(0, -2);
-        console.log("toCity: ", toCity);
-        $http
-            .get(url + toState + "/" + toCity + ".json")
-            .then(parseWUData)
-            .then(function () {
-                console.log('url + toState + "/" + toCity + ".json" :, ', url + toState + "/" + toCity + ".json");
-            })
+        if (event.keyCode === 13) {
+            saveToLocalStorage();
+            var toState = stringifySearch().substr(-2);
+            console.log("toState: ", toState);
+            var toCity = stringifySearch().slice(0, -2);
+            console.log("toCity: ", toCity);
+            weather.searchQuery = "";
+            $http
+                .get(url + toState + "/" + toCity + ".json")
+                .then(parseWUData)
+                .then(function () {
+                    console.log('url + toState + "/" + toCity + ".json" :, ', url + toState + "/" + toCity + ".json");
+                })
+        }
     }
 
     function parseWUData(res) {
@@ -69,7 +72,7 @@ angular.module('starter', ['ionic'])
             weather.location = data.display_location.full;
             weather.image = data.icon_url;
             weather.fiveDayForecast = res.data.forecast.simpleforecast.forecastday;
-            console.log("weather.fiveDayforecast: ", weather.fiveDayForecast);
+            console.log("weather.fiveDayForecast: ", weather.fiveDayForecast.date);
     };
 
     function saveToLocalStorage() {

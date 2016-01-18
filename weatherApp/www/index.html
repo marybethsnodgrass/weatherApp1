@@ -30,9 +30,8 @@
             <ion-content ng-controller="weatherCtrl as weather">
                 <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
-                    <input ng-model="weather.searchQuery" type="search" placeholder="Search">
+                    <input ng-model="weather.searchQuery" type="search" placeholder="Search" ng-keypress="weather.search()">
                 </label>
-                <button class="button button-royal" ng-click="weather.search()">Search</button>
                 <h1>{{weather.location}}</h1>
                 <h1>{{weather.temp}}</h1>
                 <img ng-src="{{weather.image}}">
