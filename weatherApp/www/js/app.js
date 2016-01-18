@@ -26,8 +26,7 @@ angular.module('starter', ['ionic'])
 .controller("weatherCtrl", function ($http) {
     var weather = this;
     var apiKey = '1f9136a9787c2cd3';
-    var url = 'https://api.wunderground.com/api/' + apiKey + "/forecast/conditions/q/";
-
+    var url = 'https://api.wunderground.com/api/' + apiKey + "/forecast10day/conditions/q/";
 
     $http.get(url + 'autoip.json').then(parseWUData);
 
@@ -68,5 +67,8 @@ angular.module('starter', ['ionic'])
             weather.temp = data.temp_f;
             weather.location = data.display_location.full;
             weather.image = data.icon_url;
+        var forecastData = res.data.forecast.simpleforecast.forecastday;
+            weather.fiveDayforecast = forecastData;
+            console.log("forecastData: ", forecastData);
     };
 });
